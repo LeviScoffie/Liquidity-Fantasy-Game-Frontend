@@ -8,7 +8,7 @@ import createSagaMiddleware from 'redux-saga';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import createReducer from './reducers';
-import sagas from '../utils/sagas';
+// import sagas from '../utils/sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -48,7 +48,7 @@ export default function configureStore(initialState = {}, history) { // eslint-d
   const persistor = persistStore(store);
 
   // Extensions
-  sagaMiddleware.run(sagas);
+  // sagaMiddleware.run(sagas);
   store.injectedReducers = {}; // Reducer registry
   store.injectedSagas = {}; // Saga registry
 

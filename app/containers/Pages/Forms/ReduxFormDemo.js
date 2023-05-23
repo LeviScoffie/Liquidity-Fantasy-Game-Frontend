@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from 'tss-react/mui';
 import Paper from '@mui/material/Paper';
@@ -16,10 +16,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Button from '@mui/material/Button';
 import {
-  CheckboxRedux,
   SelectRedux,
-  TextFieldRedux,
-  SwitchRedux
 } from 'enl-components/Forms/ReduxFormMUI';
 import { initAction, clearAction } from 'enl-redux/actions/reduxFormActions';
 
@@ -27,7 +24,7 @@ const renderRadioGroup = ({ input, ...rest }) => (
   <RadioGroup
     {...input}
     {...rest}
-    valueselected={input.value}
+    value={input.value}
     onChange={(event, value) => input.onChange(value)}
   />
 );
@@ -43,7 +40,7 @@ const email = value => (
 const useStyles = makeStyles()((theme) => ({
   root: {
     flexGrow: 1,
-    padding: 30
+    padding: 40
   },
   field: {
     width: '100%',
@@ -51,29 +48,29 @@ const useStyles = makeStyles()((theme) => ({
   },
   fieldBasic: {
     width: '100%',
-    marginBottom: 20,
+    marginBottom: 10,
     marginTop: 10
   },
   inlineWrap: {
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'column'
   },
   buttonInit: {
     margin: theme.spacing(4),
     textAlign: 'center'
   },
 }));
-
+/** An object initialized, initial data */
 const initData = {
   text: 'Sample Text',
   email: 'sample@mail.com',
   radio: 'option1',
-  selection: 'option1',
+  selection: '',
   onof: true,
   checkbox: true,
   textarea: 'This is default text'
 };
-
+/** A component being created */
 function ReduxFormDemo(props) {
   const trueBool = true;
   const {
@@ -81,104 +78,67 @@ function ReduxFormDemo(props) {
   } = useStyles();
   const {
     handleSubmit,
-    pristine,
-    reset,
     submitting,
-    init,
-    clear
+
   } = props;
+
+  const [pools, setPools] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://stats.apy.vision/api/v1/pool_search/advanced_search?avg_period_daily_volume_usd=250000&avg_period_reserve_usd=1000000&min_pool_age_days=7&vr=0&exchanges=uniswap_eth&access_token=b55b52c3-3d81-47c5-8d47-91925ce6a6a9');
+        const data = await response.json();
+        const options = data.results.map(p => ({
+          value: `${p.name} -  $${(p.avg_lp_price).toFixed(2)}`,
+          label: `${p.name} -  $${(p.avg_lp_price).toFixed(2)}`,
+          poolName: p.name
+        }));
+
+        setPools(options);
+      } catch (error) {
+        console.error('Error fetching liquidity pools:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div>
       <Grid container spacing={3} alignItems="flex-start" direction="row" justifyContent="center">
         <Grid item xs={12} md={6}>
           <Paper className={classes.root}>
-            <Typography variant="h5" component="h3">
-              Simple Form Example
-            </Typography>
-            <Typography component="p">
-              The delay between when you click (Submit) and when the alert dialog pops up is intentional, to simulate server latency.
-            </Typography>
-            <div className={classes.buttonInit}>
-              <Button onClick={() => init(initData)} color="secondary" type="button">
-                Load Sample Data
-              </Button>
-              <Button onClick={() => clear()} type="button">
-                Clear Data
-              </Button>
-            </div>
-            <form onSubmit={handleSubmit}>
-              <div>
-                <Field
-                  name="text"
-                  component={TextFieldRedux}
-                  placeholder="Text Field"
-                  label="Text Field"
-                  validate={required}
-                  required
-                  className={classes.field}
-                />
-              </div>
-              <div>
-                <Field
-                  name="email"
-                  component={TextFieldRedux}
-                  placeholder="Email Field"
-                  label="Email"
-                  required
-                  validate={[required, email]}
-                  className={classes.field}
-                />
-              </div>
+            <form onSubmit={() => handleSubmit()}>
               <div className={classes.fieldBasic}>
                 <FormLabel component="label">Choose One Option</FormLabel>
                 <Field name="radio" className={classes.inlineWrap} component={renderRadioGroup}>
-                  <FormControlLabel value="option1" control={<Radio />} label="Option 1" />
-                  <FormControlLabel value="option2" control={<Radio />} label="Option 2" />
+                  <FormControlLabel value="Buy" control={<Radio />} label="Buy" />
+                  <FormControlLabel value="Sell" control={<Radio />} label="Sell" />
                 </Field>
               </div>
               <div>
                 <FormControl variant="standard" className={classes.field}>
-                  <InputLabel htmlFor="selection">Selection</InputLabel>
+                  <InputLabel htmlFor="selection">Liquidity Pool - Price</InputLabel>
                   <Field
                     name="selection"
                     component={SelectRedux}
-                    placeholder="Selection"
+                    placeholder="Liquidity Pool"
                     autoWidth={trueBool}
                   >
-                    <MenuItem value="option1">Option One</MenuItem>
-                    <MenuItem value="option2">Option Two</MenuItem>
-                    <MenuItem value="option3">Option Three</MenuItem>
+                    {pools.map(p => (
+                      <MenuItem key= {p.value} value={p.value}>
+                        {p.label}
+                      </MenuItem>
+                    ))}
                   </Field>
                 </FormControl>
               </div>
               <div className={classes.fieldBasic}>
-                <FormLabel component="label">Toggle Input</FormLabel>
-                <div className={classes.inlineWrap}>
-                  <FormControlLabel control={<Field name="onof" component={SwitchRedux} />} label="On/OF Switch" />
-                  <FormControlLabel control={<Field name="checkbox" component={CheckboxRedux} />} label="Checkbox" />
-                </div>
-              </div>
-              <div className={classes.field}>
-                <Field
-                  name="textarea"
-                  className={classes.field}
-                  component={TextFieldRedux}
-                  placeholder="Textarea"
-                  label="Textarea"
-                  multiline={trueBool}
-                  rows={4}
-                />
               </div>
               <div>
-                <Button variant="contained" color="secondary" type="submit" disabled={submitting}>
+                <Button variant="contained" color="secondary" type="submit" disabled={submitting} onClick={() => handleSubmit()}>
                   Submit
-                </Button>
-                <Button
-                  type="button"
-                  disabled={pristine || submitting}
-                  onClick={reset}
-                >
-                  Reset
                 </Button>
               </div>
             </form>
@@ -193,11 +153,11 @@ renderRadioGroup.propTypes = { input: PropTypes.object.isRequired, };
 
 ReduxFormDemo.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  reset: PropTypes.func.isRequired,
-  pristine: PropTypes.bool.isRequired,
+  // reset: PropTypes.func.isRequired,
+  // pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  init: PropTypes.func.isRequired,
-  clear: PropTypes.func.isRequired,
+  // init: PropTypes.func.isRequired,
+  // clear: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({

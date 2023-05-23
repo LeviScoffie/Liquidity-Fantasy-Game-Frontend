@@ -195,7 +195,7 @@ function Header(props) {
         </Hidden>
         <div className={classes.userToolbar}>
           <SelectLanguage />
-          {isLogin
+          {/* {isLogin
             ? <UserMenu signOut={signOut} avatar={avatar} />
             : (
               <Button
@@ -209,7 +209,7 @@ function Header(props) {
                 <FormattedMessage {...messages.login} />
               </Button>
             )
-          }
+          } */}
         </div>
       </Toolbar>
     </AppBar>

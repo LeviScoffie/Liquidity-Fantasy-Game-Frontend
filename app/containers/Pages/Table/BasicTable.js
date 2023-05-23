@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { makeStyles } from 'tss-react/mui';
 import brand from 'enl-api/dummy/brand';
@@ -17,12 +17,13 @@ const useStyles = makeStyles()(() => ({
 
 function BasicTable(props) {
   const { intl } = props;
-  const {
-    classes
-  } = useStyles();
+
+  const { classes } = useStyles();
+
   const title = brand.name + ' - Table';
   const description = brand.desc;
   const docSrc = 'containers/Tables/';
+
   return (
     <div>
       <Helmet>
@@ -33,28 +34,10 @@ function BasicTable(props) {
         <meta property="twitter:title" content={title} />
         <meta property="twitter:description" content={description} />
       </Helmet>
-      <PapperBlock
-        title={intl.formatMessage(messages.strippedTableTitle)}
-        whiteBg
-        icon="view_headline"
-        desc={intl.formatMessage(messages.strippedTableDesc)}
-      >
-        <div>
-          <StrippedTable />
-          <SourceReader componentName={docSrc + 'StrippedTable.js'} />
-        </div>
-      </PapperBlock>
-      <PapperBlock
-        title={intl.formatMessage(messages.emptyTableTitle)}
-        whiteBg
-        icon="crop_5_4"
-        desc={intl.formatMessage(messages.emptyTableDesc)}
-      >
-        <div>
-          <EmptyData />
-          <SourceReader componentName="components/Tables/EmptyData.js" />
-        </div>
-      </PapperBlock>
+      <div>
+        <StrippedTable />
+        <SourceReader componentName={docSrc + 'StrippedTable.js'} />
+      </div>
     </div>
   );
 }

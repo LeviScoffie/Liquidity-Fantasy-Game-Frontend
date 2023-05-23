@@ -2,14 +2,17 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import brand from 'enl-api/dummy/brand';
 import { PapperBlock } from 'enl-components';
+import { Paper } from '@mui/material';
 import CompossedLineBarArea from './CompossedLineBarArea';
 import StrippedTable from '../Table/StrippedTable';
+import DropListMenu from './DropListMenu';
 
 function BasicTable() {
   const title = brand.name + ' - Dashboard';
   const description = brand.desc;
   return (
     <div>
+
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={description} />
@@ -23,6 +26,7 @@ function BasicTable() {
           <CompossedLineBarArea />
         </div>
       </PapperBlock>
+
       <PapperBlock title="Table" whiteBg icon="grid_on" desc="UI Table when no data to be shown">
         <div>
           <StrippedTable />

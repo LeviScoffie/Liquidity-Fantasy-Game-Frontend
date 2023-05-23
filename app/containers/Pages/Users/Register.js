@@ -11,6 +11,7 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
+// console.log('I am here');
 function Register() {
   const { classes } = useStyles();
   const title = brand.name + ' - Register';

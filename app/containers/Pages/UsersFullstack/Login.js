@@ -7,7 +7,7 @@ import Hidden from '@mui/material/Hidden';
 import { NavLink } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { LoginFormFirebase, SelectLanguage } from 'enl-components';
+import { SelectLanguage } from 'enl-components';
 import logo from 'enl-images/logo.svg';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import useStyles from 'enl-components/Forms/user-jss';
@@ -70,9 +70,9 @@ function Login(props) {
             </div>
           </div>
         </Hidden>
-        <div className={classes.sideFormWrap}>
+        {/* <div className={classes.sideFormWrap}>
           <LoginFormFirebase onSubmit={(values) => submitForm(values)} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

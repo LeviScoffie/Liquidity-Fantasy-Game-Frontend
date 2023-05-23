@@ -1,10 +1,3 @@
-/**
- * app.js
- *
- * This is the entry file for the application, only setup and boilerplate
- * code.
- */
-
 // Needed for redux-saga es6 generator support
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -34,6 +27,9 @@ import configureStore from './redux/configureStore';
 // Import i18n messages
 import { translationMessages } from './i18n';
 
+// Wrapping entire App with authentication context
+import { AuthProvider } from './AuthContext';
+
 // Create redux store with history
 const initialState = {};
 const { store, persistor } = configureStore(initialState, history);
@@ -46,7 +42,10 @@ const render = messages => {
       <PersistGate loading={null} persistor={persistor}>
         <LanguageProvider messages={messages}>
           <ConnectedRouter history={history}>
-            <App history={history} />
+            <AuthProvider>
+              <App history={history} />
+            </AuthProvider>
+
           </ConnectedRouter>
         </LanguageProvider>
       </PersistGate>
@@ -87,12 +86,12 @@ Offline access for production mode.
 Uncomment this code bellow to register Service Worker.
 * */
 
-//  if ('serviceWorker' in navigator) {
-//    window.addEventListener('load', () => {
-//      navigator.serviceWorker.register('/service-worker.js').then(registration => {
-//        console.log('SW registered: ', registration);
-//      }).catch(registrationError => {
-//        console.log('SW registration failed: ', registrationError);
-//      });
-//    });
-//  }
+// if ('serviceWorker' in navigator) {
+//   window.addEventListener('load', () => {
+//     navigator.serviceWorker.register('/service-worker.js').then(registration => {
+//       console.log('SW registered: ', registration);
+//     }).catch(registrationError => {
+//       console.log('SW registration failed: ', registrationError);
+//     });
+//   });
+// }

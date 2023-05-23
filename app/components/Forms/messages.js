@@ -74,7 +74,7 @@ export default defineMessages({
   },
   terms: {
     id: `${scope}.Register.terms`,
-    defaultMessage: 'Terms & Condition',
+    defaultMessage: 'Term & Condition',
   },
   resetTitle: {
     id: `${scope}.Reset.title`,

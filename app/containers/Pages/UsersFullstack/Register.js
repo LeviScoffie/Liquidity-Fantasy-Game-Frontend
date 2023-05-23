@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import Hidden from '@mui/material/Hidden';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { RegisterFormFirebase, SelectLanguage } from 'enl-components';
+import { SelectLanguage } from 'enl-components';
 import useStyles from 'enl-components/Forms/user-jss';
 import brand from 'enl-api/dummy/brand';
 import logo from 'enl-images/logo.svg';
@@ -69,9 +69,9 @@ function Register(props) {
             </div>
           </div>
         </Hidden>
-        <div className={classes.sideFormWrap}>
+        {/* <div className={classes.sideFormWrap}>
           <RegisterFormFirebase onSubmit={(values) => submitForm(values)} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

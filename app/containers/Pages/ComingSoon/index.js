@@ -98,4 +98,4 @@ ComingSoon.propTypes = {
   intl: PropTypes.object.isRequired
 };
 
-export default injectIntl(ComingSoon);
+// export default injectIntl(ComingSoon);
