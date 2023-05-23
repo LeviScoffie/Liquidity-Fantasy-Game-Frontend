@@ -28,4 +28,4 @@ function Error(props) {
 
 Error.propTypes = { intl: PropTypes.object.isRequired };
 
-export default injectIntl(Error);
+// export default injectIntl(Error);

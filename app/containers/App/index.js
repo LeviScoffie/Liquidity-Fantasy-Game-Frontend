@@ -1,11 +1,10 @@
 import React from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
-import NotFound from '../Pages/Standalone/NotFoundDedicated';
 import LoginDedicated from '../Pages/Standalone/LoginDedicated';
-import Auth from './Auth';
 import Application from './Application';
 import ThemeWrapper from './ThemeWrapper';
+import { Login, Register } from '../pageListAsync';
 window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 
 function App(props) {
@@ -16,8 +15,8 @@ function App(props) {
         <Switch>
           <Route path="/" exact component={LoginDedicated} />
           <Route path="/app" component={Application} />
-          <Route component={Auth} />
-          <Route component={NotFound} />
+          <Route path="/register" component={Register} />
+          <Route path="/login" component={Login} />
         </Switch>
       </Router>
     </ThemeWrapper>

@@ -33,4 +33,4 @@ function BlankPage(props) {
 
 BlankPage.propTypes = { intl: PropTypes.object.isRequired };
 
-export default injectIntl(BlankPage);
+// export default injectIntl(BlankPage);

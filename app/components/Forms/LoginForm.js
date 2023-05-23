@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import Hidden from '@mui/material/Hidden';
 import { Field, reduxForm } from 'redux-form';
 import Button from '@mui/material/Button';
@@ -24,6 +24,7 @@ import { CheckboxRedux, TextFieldRedux } from './ReduxFormMUI';
 import MessagesForm from './MessagesForm';
 import messages from './messages';
 import useStyles from './user-jss';
+import { AuthContext } from '../../AuthContext';
 
 // validation functions
 const required = value => (value === null ? 'Required' : undefined);
@@ -48,16 +49,63 @@ function LoginForm(props) {
     closeMsg,
     loading
   } = props;
+
+  const { setAccessToken } = useContext(AuthContext);
+
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = event => event.preventDefault();
 
+  const [loginSuccess, setLoginSuccess] = useState(false);
+
+  const handleLoginSubmit = async (values) => {
+    try {
+      // Send a POST request to the API endpoint
+      const response = await fetch('http://localhost:3000/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        // Extract the access token from the response
+        const accessToken = data.access_token;
+        setAccessToken(accessToken);
+        // // Store the access token in localStorage
+        // localStorage.setItem('accessToken', accessToken);
+
+        // Login successful, set the loginSuccess state to true
+
+        alert('Login Successful');
+        setLoginSuccess(true);
+      } else {
+        // Login failed, handle the error
+        alert('Incorrect Password or Email');
+        const data = await response.json();
+        console.log('Login Error:', data.error);
+        // You can display an error message to the user here if needed
+      }
+    } catch (error) {
+      console.log('Login Error:', error);
+      // Handle network or other errors here
+    }
+  };
+
+  if (loginSuccess) {
+    // Redirect to the dashboard page
+    return <Redirect to="/app/pages/table" />;
+  }
+
   return (
     <Paper className={classes.sideWrap}>
       <Hidden mdUp>
         <div className={classes.headLogo}>
-          <NavLink to="/" className={classes.brand}>
+          <NavLink to="/login" className={classes.brand}>
             <img src={logo} alt={brand.name} />
             {brand.name}
           </NavLink>
@@ -85,7 +133,7 @@ function LoginForm(props) {
           : ''
       }
       <section className={classes.pageFormSideWrap}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(handleLoginSubmit)}>
           <div>
             <FormControl variant="standard" className={classes.formControl}>
               <Field

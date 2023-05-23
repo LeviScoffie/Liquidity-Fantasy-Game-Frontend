@@ -1,7 +1,7 @@
 module.exports = {
-  name: 'Enlite Starter',
-  desc: 'Enlite Starter - React.js Fullstack Template',
-  prefix: 'enlite',
-  footerText: 'Enlite Starter All Rights Reserved 2020',
+  name: 'Liquidity Fantasy Game',
+  desc: 'Liquidity Fantasy Game',
+  prefix: 'fantasy ga,e',
+  footerText: 'Liquidity Fantasy Game All rights reserved 2023',
   logoText: 'Enlite Starter',
 };

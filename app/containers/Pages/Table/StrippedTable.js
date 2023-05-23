@@ -1,4 +1,6 @@
-import React, { Fragment } from 'react';
+import React, {
+  Fragment, useEffect, useState, useContext
+} from 'react';
 import PropTypes from 'prop-types';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -8,58 +10,63 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import useStyles from 'enl-components/Tables/tableStyle-jss';
+import { AuthContext } from '../../../AuthContext';
 
-let id = 0;
-function createData(name, calories, fat, carbs, protein) {
-  id += 1;
-  return {
-    id,
-    name,
-    calories,
-    fat,
-    carbs,
-    protein
-  };
-}
+function StrippedTable({ userId }) {
+  const { accessToken } = useContext(AuthContext);
+  const [profileData, setProfileData] = useState({});
 
-const data = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res = await fetch('http://localhost:3000/profile', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          },
+        });
 
-function StrippedTable(props) {
+        if (res.ok) {
+          const data = await res.json();
+          console.log(data);
+          setProfileData(data);
+        } else {
+          console.error('Error fetching user data:', res.statusText);
+        }
+      } catch (error) {
+        console.log('Error Found In:', error);
+      }
+    };
+    fetchUserData();
+  }, [accessToken]);
+
   const { classes, cx } = useStyles();
   return (
     <Fragment>
       <Toolbar className={classes.toolbar}>
         <div className={classes.title}>
-          <Typography className={classes.title} variant="h6">Nutrition</Typography>
+          <Typography className={classes.title} variant="h6">User Portfolio</Typography>
         </div>
       </Toolbar>
       <div className={classes.rootTable}>
         <Table className={cx(classes.table, classes.stripped)}>
           <TableHead>
             <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat (g)</TableCell>
-              <TableCell align="right">Carbs (g)</TableCell>
-              <TableCell align="right">Protein (g)</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell align="right">Portfolio Value ($)</TableCell>
+              <TableCell align="right">Liquidity Pool</TableCell>
+              <TableCell align="right">LP Token Amount</TableCell>
+
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map(n => ([
-              <TableRow key={n.id}>
-                <TableCell>{n.name}</TableCell>
-                <TableCell align="right">{n.calories}</TableCell>
-                <TableCell align="right">{n.fat}</TableCell>
-                <TableCell align="right">{n.carbs}</TableCell>
-                <TableCell align="right">{n.protein}</TableCell>
-              </TableRow>
-            ]))}
+
+            <TableRow>
+              <TableCell>{profileData.email}</TableCell>
+              <TableCell align="right">{`$ ${profileData.portfolioValue}`}</TableCell>
+              <TableCell align="right">{profileData.liquidityPool}</TableCell>
+              <TableCell align="right">{profileData.lpTokens}</TableCell>
+            </TableRow>
+
           </TableBody>
         </Table>
       </div>

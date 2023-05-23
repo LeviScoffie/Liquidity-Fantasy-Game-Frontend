@@ -53,7 +53,7 @@ const useStyles = makeStyles()((theme, _params, classes) => ({
   sideWrap: {
     ...wrapper(theme),
     height: '100%',
-    borderRadius: 0,
+    borderRadius: 2,
   },
   fullWrap: {
     ...wrapper(theme),
