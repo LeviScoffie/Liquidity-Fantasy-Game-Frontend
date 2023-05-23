@@ -38,30 +38,30 @@ app/containers/Templates
 
 
 # Pages 
-app/containers/Pages/BlankPage
-app/containers/Pages/ComingSoon
-app/containers/Pages/Dashboard
-app/containers/Pages/Error
-app/containers/Pages/Maintenance
-app/containers/Pages/Standalone
-app/containers/Pages/UsersFullstack
+/app/containers/Pages/BlankPage
+/app/containers/Pages/ComingSoon
+/app/containers/Pages/Dashboard
+/app/containers/Pages/Error
+/app/containers/Pages/Maintenance
+/app/containers/Pages/Standalone
+/app/containers/Pages/UsersFullstack
 
 
 #styles 
-app/styles
+/app/styles
 
 # transalations 
-app/translations
+/app/translations
 
 
 #others
-app/.nginx.conf
-app/.htaccess
-app/.setup.js
-public
-server
-.eslintrc
-.firebaserc
-firebase.json
-babel.config.js
+/app/.nginx.conf
+/app/.htaccess
+/app/.setup.js
+/public
+/server
+/.eslintrc
+/.firebaserc
+/firebase.json
+/babel.config.js
 README.md
