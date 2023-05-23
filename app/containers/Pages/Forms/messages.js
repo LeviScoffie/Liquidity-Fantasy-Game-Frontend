@@ -206,15 +206,15 @@ export default defineMessages({
   },
   reduxFormTitle: {
     id: `${scope}.ReduxForm.title`,
-    defaultMessage: 'Reduxform'
+    defaultMessage: 'Purchase Liquidity Pool Tokens'
   },
   formTitle: {
     id: `${scope}.ReduxForm.form.title`,
-    defaultMessage: 'Redux Form'
+    defaultMessage: 'Purchase Liquidity Pool Tokens'
   },
   formDesc: {
     id: `${scope}.ReduxForm.form.desc`,
-    defaultMessage: 'This is a simple demonstration of how to connect all the standard material-ui form elements to redux-form.'
+    defaultMessage: 'Click the `Liquidity-Price` drop-down list to select a pool of your choice.'
   },
   checkRadioTitle: {
     id: `${scope}.Checkbox.title`,

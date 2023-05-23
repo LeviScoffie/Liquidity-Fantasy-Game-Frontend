@@ -40,7 +40,7 @@ export const ResetPassword = loadable(() =>
   import ('./Pages/Users/ResetPassword'), {
     fallback: <Loading />,
   });
-export const ComingSoon = loadable(() =>
+  export const ComingSoon = loadable(() =>
   import ('./Pages/ComingSoon'), {
     fallback: <Loading />,
   });
@@ -66,5 +66,10 @@ export const Parent = loadable(() =>
   });
 export const NotFoundDedicated = loadable(() =>
   import ('./Pages/Standalone/NotFoundDedicated'), {
+    fallback: <Loading />,
+  });
+
+export const Portfolio = loadable(() =>
+  import ('./Pages/Portfolio'), {
     fallback: <Loading />,
   });

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import Button from '@mui/material/Button';
 import Hidden from '@mui/material/Hidden';
@@ -53,6 +53,37 @@ function RegisterForm(props) {
     loading
   } = props;
 
+  const [redirectToLogin, setRedirectToLogin] = useState(false);
+
+  const onSubmit = async (formData) => {
+    try {
+      const response = await fetch('http://localhost:3000/user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      // Handle the response as per your requirements (e.g., show success message, redirect, etc.)
+      if (response.ok) {
+      // Registration successful
+        alert('Registration Succesful');
+        setRedirectToLogin(true);
+      } else {
+      // Registration failed
+        const data = await response.json();
+        console.log('Registration failed', data.error);
+      }
+    } catch (error) {
+      console.error('Error making POST request:', error);
+    // Handle the error as per your requirements
+    }
+  };
+
+  if (redirectToLogin) {
+    return <Redirect to='/login' />;
+  }
+
   return (
     <Paper className={classes.sideWrap}>
       <Hidden mdUp>
@@ -85,19 +116,7 @@ function RegisterForm(props) {
           : ''
       }
       <section>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <FormControl variant="standard" className={classes.formControl}>
-              <Field
-                name="name"
-                component={TextFieldRedux}
-                placeholder={intl.formatMessage(messages.loginFieldName)}
-                label={intl.formatMessage(messages.loginFieldName)}
-                required
-                className={classes.field}
-              />
-            </FormControl>
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <FormControl variant="standard" className={classes.formControl}>
               <Field
@@ -139,12 +158,6 @@ function RegisterForm(props) {
               </FormControl>
             </Grid>
           </Grid>
-          <div>
-            <FormControlLabel control={<Field name="checkbox" required component={CheckboxRedux} className={classes.agree} />} label={intl.formatMessage(messages.aggree)} />
-            <a href="/terms-conditions" target="_blank" className={classes.link}>
-              <FormattedMessage {...messages.terms} />
-            </a>
-          </div>
           <div className={classes.btnArea}>
             <Button variant="contained" fullWidth disabled={loading} color="primary" type="submit">
               {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
@@ -153,40 +166,6 @@ function RegisterForm(props) {
             </Button>
           </div>
         </form>
-      </section>
-      <h5 className={classes.divider}>
-        <span>
-          <FormattedMessage {...messages.registerOr} />
-        </span>
-      </h5>
-      <section className={classes.socmedSideLogin}>
-        <Button
-          variant="contained"
-          className={classes.redBtn}
-          type="button"
-          size="large"
-        >
-          <i className="ion-logo-google" />
-          Google
-        </Button>
-        <Button
-          variant="contained"
-          className={classes.cyanBtn}
-          type="button"
-          size="large"
-        >
-          <i className="ion-logo-twitter" />
-          Twitter
-        </Button>
-        <Button
-          variant="contained"
-          className={classes.greyBtn}
-          type="button"
-          size="large"
-        >
-          <i className="ion-logo-github" />
-          Github
-        </Button>
       </section>
     </Paper>
   );
