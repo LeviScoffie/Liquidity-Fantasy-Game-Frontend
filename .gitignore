@@ -11,7 +11,7 @@ npm-debug.log
 
 
 #components
-app/api 
+
 app/components/BreadCrumb
 app/components/Error
 app/components/GuideSlider
