@@ -69,3 +69,7 @@ export const NotFoundDedicated = loadable(() =>
     fallback: <Loading />,
   });
 
+export const Portfolio = loadable(() =>
+  import ('./Pages/Portfolio'), {
+    fallback: <Loading />,
+  });
