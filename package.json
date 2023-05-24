@@ -4,8 +4,9 @@
   "description": "React.js fullstack web template for expert and experienced fullstack developer",
   "private": true,
   "engines": {
-    "npm": ">=6.12.0",
-    "node": "=18.6.0"
+    "npm": "9.5.1",
+    "node": "18.6.0",
+    "yarn": "1.22.19"
   },
   "author": "Enlite Prime Team",
   "scripts": {
