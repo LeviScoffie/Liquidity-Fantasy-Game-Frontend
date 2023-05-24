@@ -57,7 +57,7 @@ function RegisterForm(props) {
 
   const onSubmit = async (formData) => {
     try {
-      const response = await fetch('http://localhost:3000/user', {
+      const response = await fetch('https://liquidity-fantasy-game.herokuapp.com/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

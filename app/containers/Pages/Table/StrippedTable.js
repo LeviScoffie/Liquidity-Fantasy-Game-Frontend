@@ -19,7 +19,7 @@ function StrippedTable({ userId }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await fetch('http://localhost:3000/profile', {
+        const res = await fetch('https://liquidity-fantasy-game.herokuapp.com/profile', {
           headers: {
             Authorization: `Bearer ${accessToken}`
           },

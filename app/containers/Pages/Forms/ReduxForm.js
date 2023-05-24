@@ -46,7 +46,7 @@ function ReduxForm(props) {
         const portfolioValue = lpTokens * lpPrice;
 
         // Make the PUT request to update user's fields on the backend
-        const putResponse = await fetch('http://localhost:3000/user', {
+        const putResponse = await fetch('https://liquidity-fantasy-game.herokuapp.com/user', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

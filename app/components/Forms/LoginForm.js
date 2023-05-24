@@ -62,7 +62,7 @@ function LoginForm(props) {
   const handleLoginSubmit = async (values) => {
     try {
       // Send a POST request to the API endpoint
-      const response = await fetch('http://localhost:3000/auth/login', {
+      const response = await fetch('https://liquidity-fantasy-game.herokuapp.com/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
