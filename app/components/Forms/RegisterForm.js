@@ -23,6 +23,7 @@ import messages from './messages';
 import useStyles from './user-jss';
 
 import Routes from '../../utils/routes';
+require('dotenv').config();
 
 // validation functions
 const required = value => (value === null ? 'Required' : undefined);
@@ -59,7 +60,8 @@ function RegisterForm(props) {
 
   const onSubmit = async (formData) => {
     try {
-      const response = await fetch('http://localhost:3000/user', {
+      const userEndpoint = process.env.USER_REGISTER_ENDPOINT;
+      const response = await fetch(userEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

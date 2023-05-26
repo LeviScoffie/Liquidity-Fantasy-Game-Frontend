@@ -11,6 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import useStyles from 'enl-components/Tables/tableStyle-jss';
 import { AuthContext } from '../../../AuthContext';
+require('dotenv').config();
 
 function StrippedTable({ userId }) {
   const { accessToken } = useContext(AuthContext);
@@ -19,7 +20,8 @@ function StrippedTable({ userId }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await fetch('http://localhost:3000/profile', {
+        const profileView = process.env.PROFILE_VIEW_ENDPOINT;
+        const res = await fetch(profileView, {
           headers: {
             Authorization: `Bearer ${accessToken}`
           },

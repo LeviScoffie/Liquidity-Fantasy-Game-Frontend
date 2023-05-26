@@ -26,9 +26,12 @@ import messages from './messages';
 import useStyles from './user-jss';
 import { AuthContext } from '../../AuthContext';
 import Routes from '../../utils/routes';
+require('dotenv').config();
 
 // validation functions
-const required = value => (value === null ? 'Required' : undefined);
+function required(value) {
+  return (value === null ? 'Required' : undefined);
+}
 const email = value => (
   value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
     ? 'Invalid email'
@@ -60,8 +63,9 @@ function LoginForm(props) {
 
   const handleLoginSubmit = async (values) => {
     try {
+      const loginEndpoint = process.env.LOGIN_ENDPOINT;
       // Send a POST request to the API endpoint
-      const response = await fetch('http://localhost:3000/auth/login', {
+      const response = await fetch(loginEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
