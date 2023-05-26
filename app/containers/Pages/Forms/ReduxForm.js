@@ -59,14 +59,11 @@ function ReduxForm(props) {
         });
 
             if (putResponse.ok) {
-              // Handle successful submission
               console.log(putResponse);
             } else {
-              // Handle error response
               console.error('Error:', putResponse.statusText);
             }
       } else {
-      // Handle selected pool not found
       showResult();
       console.log(data);
         console.error('Selected liquidity pool not found in API response');

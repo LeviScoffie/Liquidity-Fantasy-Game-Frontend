@@ -22,6 +22,8 @@ import MessagesForm from './MessagesForm';
 import messages from './messages';
 import useStyles from './user-jss';
 
+import Routes from '../../utils/routes';
+
 // validation functions
 const required = value => (value === null ? 'Required' : undefined);
 const email = value => (
@@ -64,24 +66,23 @@ function RegisterForm(props) {
         },
         body: JSON.stringify(formData)
       });
-      // Handle the response as per your requirements (e.g., show success message, redirect, etc.)
+
       if (response.ok) {
-      // Registration successful
         alert('Registration Succesful');
+
         setRedirectToLogin(true);
       } else {
-      // Registration failed
         const data = await response.json();
+
         console.log('Registration failed', data.error);
       }
     } catch (error) {
       console.error('Error making POST request:', error);
-    // Handle the error as per your requirements
     }
   };
 
   if (redirectToLogin) {
-    return <Redirect to='/login' />;
+    return <Redirect to={Routes.login}/>;
   }
 
   return (

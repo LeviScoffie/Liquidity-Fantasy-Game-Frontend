@@ -60,8 +60,9 @@ app/containers/Templates
 /app/.setup.js
 /public
 /server
-/.eslintrc
 /.firebaserc
 /firebase.json
-/babel.config.js
 README.md
+
+
+.env

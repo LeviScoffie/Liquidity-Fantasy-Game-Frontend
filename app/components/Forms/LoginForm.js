@@ -25,6 +25,7 @@ import MessagesForm from './MessagesForm';
 import messages from './messages';
 import useStyles from './user-jss';
 import { AuthContext } from '../../AuthContext';
+import Routes from '../../utils/routes';
 
 // validation functions
 const required = value => (value === null ? 'Required' : undefined);
@@ -34,9 +35,7 @@ const email = value => (
     : undefined
 );
 
-const LinkBtn = React.forwardRef(function LinkBtn(props, ref) { // eslint-disable-line
-  return <NavLink to={props.to} {...props} innerRef={ref} />; // eslint-disable-line
-});
+const LinkBtn = React.forwardRef((props, ref) => <NavLink to={props.to} {...props} innerRef={ref} />);
 
 function LoginForm(props) {
   const { classes, cx } = useStyles();
@@ -73,39 +72,30 @@ function LoginForm(props) {
       if (response.ok) {
         const data = await response.json();
 
-        // Extract the access token from the response
         const accessToken = data.access_token;
-        setAccessToken(accessToken);
-        // // Store the access token in localStorage
-        // localStorage.setItem('accessToken', accessToken);
 
-        // Login successful, set the loginSuccess state to true
+        setAccessToken(accessToken);
 
         alert('Login Successful');
+
         setLoginSuccess(true);
       } else {
-        // Login failed, handle the error
         alert('Incorrect Password or Email');
-        const data = await response.json();
-        console.log('Login Error:', data.error);
-        // You can display an error message to the user here if needed
       }
     } catch (error) {
       console.log('Login Error:', error);
-      // Handle network or other errors here
     }
   };
 
   if (loginSuccess) {
-    // Redirect to the dashboard page
-    return <Redirect to="/app/pages/table" />;
+    return <Redirect to={Routes.table} />;
   }
 
   return (
     <Paper className={classes.sideWrap}>
       <Hidden mdUp>
         <div className={classes.headLogo}>
-          <NavLink to="/login" className={classes.brand}>
+          <NavLink to={Routes.login} className={classes.brand}>
             <img src={logo} alt={brand.name} />
             {brand.name}
           </NavLink>
@@ -115,7 +105,7 @@ function LoginForm(props) {
         <Typography variant="h4" className={classes.title}>
           <FormattedMessage {...messages.login} />
         </Typography>
-        <Button size="small" className={classes.buttonLink} component={LinkBtn} to="/register">
+        <Button size="small" className={classes.buttonLink} component={LinkBtn} to={Routes.register}>
           <Icon className={cx(classes.icon, classes.signArrow)}>arrow_forward</Icon>
           <FormattedMessage {...messages.createNewAccount} />
         </Button>
@@ -179,7 +169,7 @@ function LoginForm(props) {
               control={<Field name="checkbox" component={CheckboxRedux} />}
               label={intl.formatMessage(messages.loginRemember)}
             />
-            <Button size="small" component={LinkBtn} to="/reset-password" className={classes.buttonLink}>
+            <Button size="small" component={LinkBtn} to={Routes.resetPassword} className={classes.buttonLink}>
               <FormattedMessage {...messages.loginForgotPassword} />
             </Button>
           </div>
