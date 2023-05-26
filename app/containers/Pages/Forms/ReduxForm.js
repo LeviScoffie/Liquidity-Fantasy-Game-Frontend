@@ -8,6 +8,7 @@ import { SourceReader, PapperBlock } from 'enl-components';
 import { injectIntl } from 'react-intl';
 import messages from './messages';
 import ReduxFormDemo from './ReduxFormDemo';
+require('dotenv').config();
 
 const useStyles = makeStyles()(() => ({
   root: {
@@ -32,7 +33,8 @@ function ReduxForm(props) {
 
   const handleSubmit = async (selectPool) => {
     try {
-      const response = await fetch('https://stats.apy.vision/api/v1/pool_search/advanced_search?avg_period_daily_volume_usd=250000&avg_period_reserve_usd=1000000&min_pool_age_days=7&vr=0&exchanges=uniswap_eth&access_token=b55b52c3-3d81-47c5-8d47-91925ce6a6a9');
+     const statsApyEndpoint = process.env.APY_STATS_ENDPOINT;
+      const response = await fetch(statsApyEndpoint);
 
       const data = await response.json();
       const poolArray = data.results;
@@ -40,13 +42,12 @@ function ReduxForm(props) {
       if (selectedPool) {
         const lpPrice = selectedPool.avg_lp_price;
 
-        // Calculate LP token amount and portfolio value
         const initialInvestment = 100000; // $100,000
         const lpTokens = initialInvestment / lpPrice;
         const portfolioValue = lpTokens * lpPrice;
 
-        // Make the PUT request to update user's fields on the backend
-        const putResponse = await fetch('https://liquidity-fantasy-game.herokuapp.com/user', {
+        const userEndpoint = process.env.USER_ENDPOINT;
+        const putResponse = await fetch(userEndpoint, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

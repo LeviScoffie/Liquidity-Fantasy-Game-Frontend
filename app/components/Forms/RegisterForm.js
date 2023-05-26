@@ -21,6 +21,8 @@ import { CheckboxRedux, TextFieldRedux } from './ReduxFormMUI';
 import MessagesForm from './MessagesForm';
 import messages from './messages';
 import useStyles from './user-jss';
+import Routes from '../../utils/routes';
+require('dotenv').config();
 
 // validation functions
 const required = value => (value === null ? 'Required' : undefined);
@@ -57,7 +59,8 @@ function RegisterForm(props) {
 
   const onSubmit = async (formData) => {
     try {
-      const response = await fetch('https://liquidity-fantasy-game.herokuapp.com/user', {
+      const userEndpoint = process.env.USER_ENDPOINT;
+      const response = await fetch(userEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -81,7 +84,7 @@ function RegisterForm(props) {
   };
 
   if (redirectToLogin) {
-    return <Redirect to='/login' />;
+    return <Redirect to={Routes.login}/>;
   }
 
   return (
@@ -98,7 +101,7 @@ function RegisterForm(props) {
         <Typography variant="h4" className={classes.title}>
           <FormattedMessage {...messages.register} />
         </Typography>
-        <Button size="small" className={classes.buttonLink} component={LinkBtn} to="/login">
+        <Button size="small" className={classes.buttonLink} component={LinkBtn} to={Routes.login}>
           <Icon className={cx(classes.icon, classes.signArrow)}>arrow_forward</Icon>
           <FormattedMessage {...messages.toAccount} />
         </Button>
